@@ -2,6 +2,11 @@
 
 namespace quartsoft\samlsso\controllers;
 
+use quartsoft\samlsso\actions\AcsAction;
+use quartsoft\samlsso\actions\LoginAction;
+use quartsoft\samlsso\actions\LogoutAction;
+use quartsoft\samlsso\actions\MetadataAction;
+use quartsoft\samlsso\actions\SlsAction;
 use yii\helpers\Url;
 use yii\web\Controller;
 
@@ -10,22 +15,22 @@ class SamlController extends Controller
     public function actions() {
         return [
             'loginsaml' => [
-                'class' => 'quartsoft\samlsso\actions\LoginAction',
+                'class' => LoginAction::className(),
                 'returnTo' => Url::to('site/index')
             ],
             'logoutsaml' => [
-                'class' => 'quartsoft\samlsso\actions\LogoutAction',
+                'class' => LogoutAction::className(),
                 'returnTo' => Url::to('site/index'),
             ],
             'acs' => [
-                'class' => 'quartsoft\samlsso\actions\AcsAction',
+                'class' => AcsAction::className(),
                 'returnTo' => Url::to('site/index'),
             ],
             'sls' => [
-                'class' => 'quartsoft\samlsso\actions\SlsAction',
+                'class' => SlsAction::className(),
             ],
             'metadata' => [
-                'class' => 'quartsoft\samlsso\actions\MetadataAction'
+                'class' => MetadataAction::className(),
             ]
         ];
     }
