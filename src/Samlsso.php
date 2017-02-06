@@ -5,7 +5,7 @@ namespace quartsoft\samlsso;
 use yii\base\Component;
 
 /**
- * This class wraps OneLogin_Saml2_Auth class by creating an instance of that class using configurations specified in configFile variable inside @common/config folder.
+ * This class wraps OneLogin_Saml2_Auth class by creating an instance of that class using configurations specified in configFile variable inside @common/sampleconfig folder.
  */
 class Samlsso extends Component
 {

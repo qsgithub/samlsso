@@ -35,7 +35,7 @@ Register ``quartsoft\samlsso\Saml`` to your components in ``config/web.php``.
 ]
 ```
 
-This component requires a ``OneLogin_Saml`` configuration stored in a php file. The default value for ``configFileName`` is ``@common/config/samlcofig.php`` so make sure to create this file before. This file must returns the ``OneLogin_Saml`` configuration. See this [link](https://github.com/onelogin/php-saml/blob/master/settings_example.php) for example configuration.
+This component requires a ``OneLogin_Saml`` configuration stored in a php file. The default value for ``configFile`` is ``@common/config/samlcofig.php`` so make sure to create this file before. This file must returns the ``OneLogin_Saml`` configuration. See this [link](https://github.com/onelogin/php-saml/blob/master/settings_example.php) for example configuration.
 
 ```php
 <?php
@@ -66,6 +66,8 @@ return [
     ],
 ];
 ```
+
+Example configuration file you can find [here](https://github.com/Erlang333/samlsso/tree/master/src/sampleconfig).
 
 Usage
 -----
