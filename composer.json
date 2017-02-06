@@ -1,0 +1,21 @@
+{
+    "name": "quartsoft/samlsso",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Nikita Natoloka",
+            "email": "erlang@quartsoft.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "yiisoft/yii2": "*",
+        "onelogin/php-saml": "^2.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "quartsoft\\samlsso\\": "./src"
+        }
+    }
+
+}
