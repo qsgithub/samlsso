@@ -12,6 +12,9 @@ use yii\web\Controller;
 
 class SamlController extends Controller
 {
+    /**
+     * Actions which used for working with onelogin/php-saml
+     */
     public function actions() {
         return [
             'loginsaml' => [
@@ -35,6 +38,9 @@ class SamlController extends Controller
         ];
     }
 
+    /**
+     * Replace login for onelogin saml
+     */
     public function beforeAction($action) {
         if ($action->id == 'login') {
             $this->redirect(['loginsaml']);

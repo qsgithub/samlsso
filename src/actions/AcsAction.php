@@ -6,8 +6,16 @@ use yii\base\Exception;
 
 class AcsAction extends BaseAction
 {
+
+    /**
+     * After succesfull login process user will be redirected to this url.
+     */
     public $returnTo;
 
+    /**
+     * It handles acs response from Identity Provider. It will check whether the response is valid or not. If it isn't, an Exception will be thrown. If the response is valid, the successCallback will be called. After that, user will be redirected to returnTo.
+     * @throws Exception
+     */
     public function run()
     {
         \Yii::$app->session->open();
@@ -29,6 +37,9 @@ class AcsAction extends BaseAction
 
     }
 
+    /**
+     * Set session value
+     */
     public function setSession()
     {
         $session = \Yii::$app->session;

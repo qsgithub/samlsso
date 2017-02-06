@@ -7,6 +7,11 @@ use yii\base\Exception;
 
 class SlsAction extends BaseAction
 {
+
+    /**
+     * It handles sls logout request/response from Identity Provider. It will check whether is valid or not. If it isn't, an Exception will be thrown.
+     * @throws Exception
+     */
     public function run()
     {
         $LogoutRequestID = \Yii::$app->session->get('LogoutRequestID');
