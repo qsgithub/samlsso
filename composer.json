@@ -1,6 +1,8 @@
 {
     "name": "quartsoft/samlsso",
+    "description": "A SAML SSO extension for Yii 2",
     "type": "library",
+    "keywords": ["yii2","saml", "samlsso"],
     "authors": [
         {
             "name": "Nikita Natoloka",

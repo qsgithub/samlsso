@@ -9,7 +9,6 @@ class LoginAction extends BaseAction
 
     public function run()
     {
-
         $this->samlSsoComponent->login($this->returnTo);
     }
 }
