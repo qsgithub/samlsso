@@ -5,8 +5,8 @@
     "keywords": ["yii2","saml", "samlsso"],
     "authors": [
         {
-            "name": "Nikita Natoloka",
-            "email": "erlang@quartsoft.com"
+            "name": "QuartSoft Ltd.",
+            "email": "info@quartsoft.com"
         }
     ],
     "minimum-stability": "stable",

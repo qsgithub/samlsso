@@ -11,11 +11,11 @@ class SamlController extends Controller
         return [
             'loginsaml' => [
                 'class' => 'quartsoft\samlsso\actions\LoginAction',
-                'returnTo' => Url::to('saml/acs')
+                'returnTo' => Url::to('site/index')
             ],
             'logoutsaml' => [
                 'class' => 'quartsoft\samlsso\actions\LogoutAction',
-                'returnTo' => Url::to('site/sls'),
+                'returnTo' => Url::to('site/index'),
             ],
             'acs' => [
                 'class' => 'quartsoft\samlsso\actions\AcsAction',
