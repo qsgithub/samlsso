@@ -40,7 +40,6 @@ This component requires a ``OneLogin_Saml`` configuration stored in a php file. 
 ```php
 <?php
 return [
-    'debug' => true,
     'sp' => [
         'entityId' => '',
         'assertionConsumerService' => [
