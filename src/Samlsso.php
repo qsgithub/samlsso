@@ -129,5 +129,10 @@ class Samlsso extends Component
         return $this->instance->getErrors();
     }
 
+    public function isAuthenticated()
+    {
+        return $this->instance->isAuthenticated();
+    }
+
 }
 ?>
