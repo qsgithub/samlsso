@@ -32,7 +32,20 @@ class AcsAction extends BaseAction
             $message = 'Saml error response: ' .implode(",", $errors);
             throw new Exception($message);
         }
-        $this->setSession();
+        if ($this->samlSsoComponent->isAuthenticated()) {
+            $attributes = $this->samlSsoComponent->getAttributes();
+
+            if (!$user = User::findByUsername($attributes['username'])) {
+                $user->setAttributes($attributes, false);
+                $password = \Yii::$app->getSecurity()->generatePasswordHash($attributes['session_index']);
+                $user->setPassword($password);
+                $user->save();
+            }
+            \Yii::$app->user->login($user);
+
+            $this->setSession();
+        }
+
         return \Yii::$app->response->redirect($this->returnTo);
 
     }
