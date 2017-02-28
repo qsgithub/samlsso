@@ -13,7 +13,7 @@ use yii\web\Controller;
 class SamlController extends Controller
 {
     /**
-     * Actions which used for working with onelogin/php-saml
+     * Actions which used for working with Saml flow
      */
     public function actions() {
         return [
@@ -23,7 +23,6 @@ class SamlController extends Controller
             ],
             'logoutsaml' => [
                 'class' => LogoutAction::className(),
-                'returnTo' => Url::to('site/index'),
             ],
             'acs' => [
                 'class' => AcsAction::className(),
@@ -31,6 +30,7 @@ class SamlController extends Controller
             ],
             'sls' => [
                 'class' => SlsAction::className(),
+                'returnTo' => Url::to('site/index'),
             ],
             'metadata' => [
                 'class' => MetadataAction::className(),
@@ -39,11 +39,18 @@ class SamlController extends Controller
     }
 
     /**
-     * Replace login for onelogin saml
+     * Redirect default login and logout requests
+     * @param \yii\base\Action $action
+     * @return bool
      */
     public function beforeAction($action) {
-        if ($action->id == 'login') {
-            $this->redirect(['loginsaml']);
+        switch ($action->id) {
+            case 'login':
+                $this->redirect(['loginsaml']);
+                break;
+            case 'logout':
+                $this->redirect(['logoutsaml']);
+                break;
         }
         return parent::beforeAction($action);
     }

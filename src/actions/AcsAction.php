@@ -1,14 +1,14 @@
 <?php
 namespace quartsoft\samlsso\actions;
 
-use quartsoft\samlsso\actions\BaseAction;
+use common\models\User as User;
 use yii\base\Exception;
 
 class AcsAction extends BaseAction
 {
 
     /**
-     * After succesfull login process user will be redirected to this url.
+     * After successful login process user will be redirected to this url.
      */
     public $returnTo;
 
@@ -19,47 +19,49 @@ class AcsAction extends BaseAction
     public function run()
     {
         \Yii::$app->session->open();
-        $authNRequestID = \Yii::$app->session->get('AuthNRequestID');
+        $authNRequestId = \Yii::$app->session->get('AuthNRequestID');
 
-        if(isset($authNRequestID)) {
-            $requestID = $_SESSION['AuthNRequestID'];
+        if(isset($authNRequestId)) {
+            $requestId = $_SESSION['AuthNRequestID'];
         } else {
-            $requestID = null;
+            $requestId = null;
         }
-        $this->samlSsoComponent->processResponse($requestID);
+
+        $this->samlSsoComponent->processResponse($requestId);
+
         $errors = $this->samlSsoComponent->getErrors();
         if (!empty($errors)) {
             $message = 'Saml error response: ' .implode(",", $errors);
+            $reason = $this->samlSsoComponent->getLastErrorReason();
+            if (!empty($reason)) {
+                $message .= "\n".$reason;
+            }
             throw new Exception($message);
         }
+
+
         if ($this->samlSsoComponent->isAuthenticated()) {
-            $attributes = $this->samlSsoComponent->getAttributes();
-
-            if (!$user = User::findByUsername($attributes['username'])) {
-                $user->setAttributes($attributes, false);
-                $password = \Yii::$app->getSecurity()->generatePasswordHash($attributes['session_index']);
-                $user->setPassword($password);
-                $user->save();
-            }
-            \Yii::$app->user->login($user);
-
-            $this->setSession();
+            $this->loginUser();
         }
 
         return \Yii::$app->response->redirect($this->returnTo);
-
     }
 
     /**
-     * Set session value
+     * Login|SignUp User based on received attributes
      */
-    public function setSession()
+    protected function loginUser()
     {
-        $session = \Yii::$app->session;
-        $session->set('samlUserdata', $this->samlSsoComponent->getAttributes());
-        $session->set('samlNameId', $this->samlSsoComponent->getNameId());
-        $session->set('samlNameIdFormat', $this->samlSsoComponent->getNameIdFormat());
-        $session->set('samlSessionIndex', $this->samlSsoComponent->getSessionIndex());
-        $session->remove('AuthNRequestID');
+        $attributes = $this->samlSsoComponent->getAttributes();
+
+        if (!$user = User::findByUsername($attributes['username'])) {
+            $user->setAttributes($attributes, false);
+            $password = \Yii::$app->getSecurity()->generatePasswordHash($attributes['session_index']);
+            $user->setPassword($password);
+            $user->save();
+        }
+        \Yii::$app->user->login($user);
+
+        $this->samlSsoComponent->setSession();
     }
 }

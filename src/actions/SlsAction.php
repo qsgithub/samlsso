@@ -1,7 +1,6 @@
 <?php
 namespace quartsoft\samlsso\actions;
 
-use quartsoft\samlsso\actions\BaseAction;
 use yii\base\Exception;
 
 
@@ -9,26 +8,32 @@ class SlsAction extends BaseAction
 {
 
     /**
+     * After successful logout process user will be redirected to this url.
+     */
+    public $returnTo;
+
+    /**
      * It handles sls logout request/response from Identity Provider. It will check whether is valid or not. If it isn't, an Exception will be thrown.
      * @throws Exception
      */
     public function run()
     {
-        $LogoutRequestID = \Yii::$app->session->get('LogoutRequestID');
+        $this->samlSsoComponent->processSLO();
 
-        if(isset($LogoutRequestID)) {
-            $requestID = $_SESSION['LogoutRequestID'];
-        } else {
-            $requestID = null;
-        }
-        $this->samlSsoComponent->processSLO(false, $requestID);;
         $errors = $this->samlSsoComponent->getErrors();
+
         if (!empty($errors)) {
-            $message = 'Logout errors: ' .implode(",", $errors);
+            $message = 'Logout error: ' . implode(",", $errors);
+            $reason = $this->samlSsoComponent->getLastErrorReason();
+            if (!empty($reason)) {
+                $message .= "\n" . $reason;
+            }
+
             throw new Exception($message);
-        } else {
-            echo '<p>Sucessfully logged out</p>';
-            \Yii::$app->session->destroy();
         }
+
+        \Yii::$app->user->logout();
+
+        return \Yii::$app->response->redirect($this->returnTo);
     }
 }

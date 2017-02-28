@@ -1,6 +1,6 @@
 <?php
 
-namespace quartsoft\samlsso\actions;
+namespace quartsoft\samlsso\Actions;
 
 use yii\base\Action;
 
@@ -10,13 +10,14 @@ use yii\base\Action;
 class BaseAction extends Action
 {
     /**
-     * This variable should be the component name of quartsoft\samlsso\Samlsso.
+     * This variable should be the component name of quartsoft\samlsso\samlsso.
      * @var string
      */
     public $samlSsoInstanceName = 'samlsso';
 
     /**
-     * This variable hold the instance of quartsoft\samlsso\Samlsso.
+     * This variable hold the instance of quartsoft\samlsso\samlsso.
+     * @var \quartsoft\samlsso\samlsso
      */
     protected $samlSsoComponent;
 
@@ -26,5 +27,6 @@ class BaseAction extends Action
         parent::init();
 
         $this->samlSsoComponent = \Yii::$app->get($this->samlSsoInstanceName);
+        \Yii::$app->controller->enableCsrfValidation = false;
     }
 }
